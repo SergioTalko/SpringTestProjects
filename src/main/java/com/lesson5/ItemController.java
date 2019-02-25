@@ -1,44 +1,62 @@
 package com.lesson5;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
+@RestController
+@RequestMapping(path = "/item")
 public class ItemController {
-    private ItemService itemService;
+    private ItemDAO itemDAO;
 
     @Autowired
-    public ItemController(ItemService serviceItem) {
-        this.itemService = serviceItem;
+    public ItemController(ItemDAO serviceItem) {
+        this.itemDAO = serviceItem;
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/item/save", produces = "text-plain")
-    public @ResponseBody
-    String saveItem(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.POST, value = "/save", produces = "application/json")
+    public ResponseEntity<Item> saveItem(@RequestBody Item item) {
+        try{
+            itemDAO.save(item);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
 
-     //   itemService.save(item);
-        return "ok";
+        }
+
+        return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/item/update", produces = "text-plain")
-    public @ResponseBody
-    String updateItem(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.PUT, value = "/update", produces = "application/json")
+    public ResponseEntity<Item> updateItem(@RequestBody Item item) {
+        try{
+        itemDAO.update(item);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
+        }
 
-      //  itemService.update(item);
-        return "ok";
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/item/delete", produces = "text-plain")
-    public @ResponseBody
-    String deleteItem(@RequestParam("id") String id) {
-        itemService.delete(Long.parseLong(id));
-        return "ok";
+    @RequestMapping(method = RequestMethod.DELETE, value = "/delete", produces = "application/json")
+    public ResponseEntity<Item> deleteItem(@RequestParam("id") String id) {
+
+        try {
+            itemDAO.delete(Long.parseLong(id));
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @RequestMapping(method = RequestMethod.GET, value = "/getAll", produces = "application/json")
+    public List<Item> getAll() {
+        return itemDAO.findAll();
+    }
 
 }

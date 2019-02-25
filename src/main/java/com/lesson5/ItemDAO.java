@@ -6,10 +6,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
 @Transactional
 public class ItemDAO {
+
 
     @PersistenceContext
     EntityManager em;
@@ -32,7 +34,12 @@ public class ItemDAO {
 
     public Item findById(long id) {
         return em.find(Item.class, id);
+    }
 
 
+    public List<Item> findAll() {
+        List<Item> items = em.createQuery("Select a From Item a",
+                Item.class).getResultList();
+        return items;
     }
 }
