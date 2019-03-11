@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/item")
+@RequestMapping("/item")
 public class ItemController {
     private ItemDAO itemDAO;
 
