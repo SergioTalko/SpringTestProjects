@@ -13,8 +13,8 @@ public class ItemController {
     private ItemDAO itemDAO;
 
     @Autowired
-    public ItemController(ItemDAO serviceItem) {
-        this.itemDAO = serviceItem;
+    public ItemController(ItemDAO itemDAO) {
+        this.itemDAO = itemDAO;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/save", produces = "application/json")
@@ -23,6 +23,7 @@ public class ItemController {
             itemDAO.save(item);
         }catch (Exception e){
             e.printStackTrace();
+            System.err.println("Cant save item with id " + item.getId() + " .Please try again later");
             return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
 
         }
@@ -36,6 +37,7 @@ public class ItemController {
         itemDAO.update(item);
         }catch (Exception e){
             e.printStackTrace();
+            System.err.println("Cant update item with id " + item.getId() + " .Please try again later");
             return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
         }
 
@@ -49,6 +51,7 @@ public class ItemController {
             itemDAO.delete(Long.parseLong(id));
         }catch (Exception e){
             e.printStackTrace();
+            System.err.println("Cant delete item with id \" + id + \" .Please try again later");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);

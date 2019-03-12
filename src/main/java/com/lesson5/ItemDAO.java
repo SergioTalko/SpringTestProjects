@@ -1,6 +1,7 @@
 package com.lesson5;
 
 
+import org.hibernate.HibernateException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,43 +18,22 @@ public class ItemDAO {
 
 
     public Item save(Item item) {
-        try {
-            em.persist(item);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Cant save item with id " + item.getId() + " .Please try again later");
-        }
+        em.persist(item);
         return item;
     }
 
     public Item update(Item item) {
-        try {
-            em.merge(item);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Cant update item with id " + item.getId() + " .Please try again later");
-        }
+        em.merge(item);
         return item;
     }
 
     public void delete(long id) {
-        try {
-            em.remove(findById(id));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Cant delete item with id " + id + " .Please try again later");
-        }
-
+        em.remove(findById(id));
     }
 
     public Item findById(long id) {
         Item item = null;
-        try {
-            item = em.find(Item.class, id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Cant find item with id " + id + " .Please try again later");
-        }
+        item = em.find(Item.class, id);
         return item;
     }
 
