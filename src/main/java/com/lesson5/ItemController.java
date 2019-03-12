@@ -27,7 +27,7 @@ public class ItemController {
             return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
 
         }
-
+        System.out.println("Save successful");
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
@@ -40,7 +40,7 @@ public class ItemController {
             System.err.println("Cant update item with id " + item.getId() + " .Please try again later");
             return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
         }
-
+        System.out.println("Update successful");
         return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
@@ -54,6 +54,7 @@ public class ItemController {
             System.err.println("Cant delete item with id \" + id + \" .Please try again later");
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        System.out.println("Delete successful");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
