@@ -24,7 +24,7 @@ public class ItemController {
         }catch (Exception e){
             e.printStackTrace();
             System.err.println("Cant save item with id " + item.getId() + " .Please try again later");
-            return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(item,HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
         System.out.println("Save successful");
@@ -38,7 +38,7 @@ public class ItemController {
         }catch (Exception e){
             e.printStackTrace();
             System.err.println("Cant update item with id " + item.getId() + " .Please try again later");
-            return new ResponseEntity<>(item,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(item,HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("Update successful");
         return new ResponseEntity<>(item, HttpStatus.OK);
@@ -51,8 +51,8 @@ public class ItemController {
             itemDAO.delete(Long.parseLong(id));
         }catch (Exception e){
             e.printStackTrace();
-            System.err.println("Cant delete item with id \" + id + \" .Please try again later");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            System.err.println("Cant delete item with id " + id + " .Please try again later");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         System.out.println("Delete successful");
         return new ResponseEntity<>(HttpStatus.OK);
